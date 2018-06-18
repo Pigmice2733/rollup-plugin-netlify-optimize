@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creates a config 1`] = `
+Object {
+  "experimentalCodeSplitting": true,
+  "input": Array [
+    "src/index.tsx",
+  ],
+  "output": Object {
+    "dir": "dist",
+    "format": "es",
+  },
+  "plugins": Array [
+    Object {
+      "load": [Function],
+      "name": "postcss",
+      "onwrite": [Function],
+      "resolveId": [Function],
+      "transform": [Function],
+    },
+    Object {
+      "load": [Function],
+      "name": "babel",
+      "options": [Function],
+      "resolveId": [Function],
+      "transform": [Function],
+    },
+    Object {
+      "name": "node-resolve",
+      "onwrite": [Function],
+      "options": [Function],
+      "resolveId": [Function],
+    },
+    Object {
+      "generateBundle": [Function],
+      "name": "html",
+      "options": [Function],
+    },
+    Object {
+      "name": "terser",
+      "transformBundle": [Function],
+    },
+  ],
+}
+`;
