@@ -9,7 +9,9 @@ const mkdir = promisify(_mkdir)
 type Chunk = OutputChunk & { filename: string }
 
 const printScript = (script: Chunk) =>
-  `<script type="module" async src="/${script.filename}"></script>`
+  `<script type="module" async src="/${
+    script.filename
+  }" crossorigin="use-credentials"></script>`
 const printStyle = (style: string) =>
   `<link rel="stylesheet" href="/${style}"></link>`
 
