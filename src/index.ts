@@ -27,30 +27,55 @@ export const createRollupConfig = (
       },
     }),
   ]
-  const config: RollupConfig = {
-    input: ['src/index.tsx'],
-    experimentalCodeSplitting: true,
-    output: {
-      dir: 'dist',
-      format: 'es',
+  const config: RollupConfig[] = [
+    {
+      input: ['src/index.tsx'],
+      experimentalCodeSplitting: true,
+      output: {
+        dir: 'dist',
+        format: 'es',
+      },
+      plugins: [
+        postcss({
+          extract: 'dist/index.css',
+          minimize: true,
+          modules: {
+            generateScopedName: development
+              ? '[local]-[hash:base64:4]'
+              : '[hash:base64:4]',
+          },
+        }),
+        babel({ babelrc: false, ...babelConfig }),
+        nodeResolve({
+          jsnext: true,
+          extensions: ['.mjs', '.js', '.json', '.ts', '.tsx', '.css'],
+        }),
+        htmlPlugin({ routes, entryStyles: ['index.css'] }),
+      ].concat(development ? [] : prodPlugins),
     },
-    plugins: [
-      postcss({
-        extract: 'dist/index.css',
-        minimize: true,
-        modules: {
-          generateScopedName: development
-            ? '[local]-[hash:base64:4]'
-            : '[hash:base64:4]',
-        },
-      }),
-      babel({ babelrc: false, ...babelConfig }),
-      nodeResolve({
-        jsnext: true,
-        extensions: ['.mjs', '.js', '.json', '.ts', '.tsx', '.css'],
-      }),
-      htmlPlugin({ routes, entryStyles: ['index.css'] }),
-    ].concat(development ? [] : prodPlugins),
-  }
+    {
+      input: 'src/index.tsx',
+      output: {
+        file: 'dist/nomodule.js',
+        name: 'nomodule',
+        format: 'iife',
+      },
+      plugins: [
+        postcss({
+          extract: false,
+          modules: {
+            generateScopedName: development
+              ? '[local]-[hash:base64:4]'
+              : '[hash:base64:4]',
+          },
+        }),
+        babel({ babelrc: false, ...babelConfig }),
+        nodeResolve({
+          jsnext: true,
+          extensions: ['.mjs', '.js', '.json', '.ts', '.tsx', '.css'],
+        }),
+      ].concat(development ? [] : prodPlugins),
+    },
+  ]
   return config
 }

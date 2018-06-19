@@ -30,9 +30,10 @@ const htmlTemplate = ({
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
   <title>Document</title>
   ${entryStyles.map(printStyle).join('\n  ')}
-  ${entryScripts.map(printScript).join('\n  ')}
 </head>
 <body>
+  <script nomodule async src="/nomodule.js"></script>
+  ${entryScripts.map(printScript).join('\n  ')}
 </body>
 </html>`
 
