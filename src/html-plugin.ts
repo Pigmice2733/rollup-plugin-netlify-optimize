@@ -46,6 +46,25 @@ const formatUrl = (url: string) =>
 const printLink = (type: 'style' | 'script') => (link: string) =>
   `  Link: </${link}>; rel=preload; as=${type}`
 
+const printRedirectsLine = ([url, path]: [string, string]) => {
+  const input = formatUrl(url)
+  const output = '/'
+  if (input === output) return
+  return `${input}  ${output}  200`
+}
+
+const redirectsTemplate = ({
+  routes,
+  bundle,
+}: {
+  routes: Routes
+  bundle: OutputBundle
+}) =>
+  Object.entries(routes)
+    .map(printRedirectsLine)
+    .filter((r): r is string => r !== undefined)
+    .join('\n')
+
 const headersTemplate = ({
   routes,
   entryStyles,
@@ -124,6 +143,7 @@ in the options for the html plugin`,
       }
       const htmlPath = join(outputDir, 'index.html')
       const headersPath = join(outputDir, '_headers')
+      const redirectsPath = join(outputDir, '_redirects')
       if (!(await exists(outputDir))) {
         await mkdir(outputDir)
       }
@@ -135,6 +155,13 @@ in the options for the html plugin`,
             routes,
             entryStyles,
             entryScripts: entryScripts.concat(),
+            bundle,
+          }),
+        ),
+        writeFile(
+          redirectsPath,
+          redirectsTemplate({
+            routes,
             bundle,
           }),
         ),
