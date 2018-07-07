@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-netlify-optimize",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Optimizes a single-page-application for hosting on netlify. Pre-renders pages with skeleton html",
   "main": "build/index.js",
   "typings": "build/index.d.ts",
@@ -15,18 +15,28 @@
   "scripts": {
     "start": "tsc --watch",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "check-lint": "prettier --list-different '**/*.{t,j}s{,x}' && eslint '**/*.{t,j}s{,x}'",
+    "lint": "prettier --write '**/*.{t,j}s{,x}' && eslint --fix '**/*.{t,j}s{,x}'"
   },
   "devDependencies": {
-    "@babel/core": "7.0.0-beta.51",
+    "@cloudfour/eslint-config": "^1.0.0",
+    "@types/css-modules-require-hook": "^4.0.1",
     "@types/hasha": "3.0.0",
+    "@types/html-minifier": "^3.5.2",
     "@types/jest": "23.1.0",
+    "@types/make-dir": "^1.0.3",
+    "@types/resolve": "^0.0.8",
+    "eslint": "^5.0.1",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "eslint-plugin-unicorn": "^4.0.3",
     "jest": "23.1.0",
-    "preact": "8.2.9",
-    "preact-render-to-string": "3.7.0",
-    "rollup": "0.60.7",
+    "make-dir": "^1.3.0",
     "ts-jest": "22.4.6",
-    "typescript": "2.9.2"
+    "typescript-eslint-parser": "^16.0.1"
   },
   "jest": {
     "transform": {
@@ -43,16 +53,38 @@
     ]
   },
   "dependencies": {
+    "@babel/core": "^7.0.0-beta.52",
     "hasha": "^3.0.0",
+    "html-minifier": "^3.5.18",
+    "preact": "^8.2.9",
+    "preact-render-to-string": "^3.7.0",
+    "prettier": "^1.13.7",
+    "resolve": "^1.8.1",
+    "rollup": "0.60.7",
     "rollup-plugin-babel": "^4.0.0-beta.5",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-serve": "^0.4.2",
-    "rollup-plugin-terser": "^1.0.1"
+    "rollup-plugin-terser": "^1.0.1",
+    "typescript": "2.9.2"
   },
   "prettier": {
     "singleQuote": true,
     "semi": false,
     "trailingComma": "all"
+  },
+  "eslintConfig": {
+    "extends": "@cloudfour/eslint-config",
+    "overrides": {
+      "files": [
+        "**/*.ts",
+        "**/*.tsx"
+      ],
+      "parser": "typescript-eslint-parser",
+      "rules": {
+        "no-undef": "off",
+        "no-unused-vars": "off"
+      }
+    }
   }
 }
