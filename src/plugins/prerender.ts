@@ -6,6 +6,7 @@ import { h } from 'preact'
 import { writeFile } from 'fs'
 import { promisify } from 'util'
 import makeDir from 'make-dir'
+import { urlFile } from '../url-file'
 
 const writeFileAsync = promisify(writeFile)
 
@@ -18,7 +19,6 @@ interface Options {
 }
 
 const processRoute = async (route: string) => {
-  console.log(`rendering ${route}`)
   const inputFile = join(process.cwd(), 'prerender', route)
   const outputFile = join(process.cwd(), 'dist', route + '.html')
   const html = render(h(require(inputFile), null))
@@ -27,12 +27,33 @@ const processRoute = async (route: string) => {
   console.log(`rendered ${route}`)
 }
 
+const netlifyUrl = (url: string) =>
+  url
+    .split('/')
+    .map(c => (c.startsWith(':') ? ':placeholder' : c))
+    .join('/')
+
+const createHtmlFiles = async (routes: Routes) => {
+  const r = await createInputs(routes)
+  return Promise.all(Object.keys(r).map(processRoute))
+}
+
+const createRedirects = async (routes: Routes) => {
+  const contents = Object.keys(routes)
+    .map(r => netlifyUrl(r) + '  /' + urlFile(netlifyUrl(r)) + '.html  200')
+    .join('\n')
+  const outputFile = join(process.cwd(), 'dist', '_redirects')
+  await makeDir(dirname(outputFile))
+  await writeFileAsync(outputFile, contents)
+  console.log('created _redirects')
+}
+
 export const prerender = ({ routes }: Options): Plugin => {
   return {
     name: 'prerender',
-    generateBundle: () =>
-      createInputs(routes).then(r => {
-        Object.keys(r).map(processRoute)
-      }),
+    generateBundle: () => {
+      createHtmlFiles(routes)
+      createRedirects(routes)
+    },
   }
 }
