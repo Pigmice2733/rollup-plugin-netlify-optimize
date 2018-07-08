@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-netlify-optimize",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Optimizes a single-page-application for hosting on netlify. Pre-renders pages with skeleton html",
   "main": "build/index.js",
   "typings": "build/index.d.ts",
