@@ -1,8 +1,9 @@
 import { Plugin } from 'rollup'
 import { writeFile } from 'fs'
 import { promisify } from 'util'
-import { join } from 'path'
+import { join, dirname } from 'path'
 import { minify, Options as MinifyOptions } from 'html-minifier'
+import makeDir from 'make-dir'
 
 const write = promisify(writeFile)
 
@@ -37,7 +38,7 @@ export const html = ({
   stylesheets = [],
 }: Options): Plugin => ({
   name: 'html',
-  buildStart: () => {
+  buildStart: async () => {
     const contents = `<!doctype html>
     <html>
       <head>
@@ -47,6 +48,8 @@ export const html = ({
       </head>
       <body></body>
     </html>`
-    write(join(process.cwd(), filename), minify(contents, minifyOptions))
+    const outFile = join(process.cwd(), filename)
+    await makeDir(dirname(outFile))
+    await write(outFile, minify(contents, minifyOptions))
   },
 })
