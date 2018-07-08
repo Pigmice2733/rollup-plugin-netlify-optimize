@@ -7,13 +7,17 @@ import makeDir from 'make-dir'
 
 const write = promisify(writeFile)
 
-interface Options {
-  filename: string
+interface TemplateOptions {
   scripts?: {
     module?: string[]
     nomodule?: string[]
   }
   stylesheets?: string[]
+  body?: string
+}
+
+interface Options extends TemplateOptions {
+  filename: string
 }
 
 const minifyOptions: MinifyOptions = {
@@ -32,24 +36,36 @@ const printScript = ({ module }: { module: boolean }) => (script: string) =>
 const printStylesheet = (stylesheet: string) =>
   `<link rel="stylesheet" href="${fixUrl(stylesheet)}"></link>`
 
-export const html = ({
-  filename,
+export const htmlTemplate = ({
   scripts = {},
   stylesheets = [],
+  body = '',
+}: TemplateOptions) =>
+  minify(
+    `<!doctype html>
+        <html>
+          <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            ${(scripts.module || []).map(printScript({ module: true }))}
+            ${(scripts.nomodule || []).map(printScript({ module: false }))}
+            ${stylesheets.map(printStylesheet)}
+          </head>
+          <body>${body}</body>
+        </html>`,
+    minifyOptions,
+  )
+
+export const html = ({
+  filename,
+  scripts,
+  stylesheets,
+  body,
 }: Options): Plugin => ({
   name: 'html',
   buildStart: async () => {
-    const contents = `<!doctype html>
-    <html>
-      <head>
-        ${(scripts.module || []).map(printScript({ module: true }))}
-        ${(scripts.nomodule || []).map(printScript({ module: false }))}
-        ${stylesheets.map(printStylesheet)}
-      </head>
-      <body></body>
-    </html>`
+    const contents = htmlTemplate({ scripts, stylesheets, body })
     const outFile = join(process.cwd(), filename)
     await makeDir(dirname(outFile))
-    await write(outFile, minify(contents, minifyOptions))
+    await write(outFile, contents)
   },
 })

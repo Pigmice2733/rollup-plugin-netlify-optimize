@@ -7,6 +7,7 @@ import { writeFile } from 'fs'
 import { promisify } from 'util'
 import makeDir from 'make-dir'
 import { urlFile } from '../url-file'
+import { htmlTemplate } from './html'
 
 const writeFileAsync = promisify(writeFile)
 
@@ -22,8 +23,16 @@ const processRoute = async (route: string) => {
   const inputFile = join(process.cwd(), 'prerender', route)
   const outputFile = join(process.cwd(), 'dist', route + '.html')
   const html = render(h(require(inputFile), null))
+  const contents = htmlTemplate({
+    scripts: {
+      module: ['dist/index.js'],
+      nomodule: ['dist/index.nomodule.js'],
+    },
+    stylesheets: ['dist/index.css'],
+    body: html,
+  })
   await makeDir(dirname(outputFile))
-  await writeFileAsync(outputFile, html)
+  await writeFileAsync(outputFile, contents)
   console.log(`rendered ${route}`)
 }
 
