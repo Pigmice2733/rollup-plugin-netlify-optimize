@@ -8,6 +8,7 @@ import { promisify } from 'util'
 import makeDir from 'make-dir'
 import { urlFile } from '../url-file'
 import { htmlTemplate } from './html'
+import cheerio from 'cheerio'
 
 const writeFileAsync = promisify(writeFile)
 
@@ -17,6 +18,15 @@ interface Routes {
 
 interface Options {
   routes: Routes
+}
+
+/**
+ * Adds the 'prerender' id to the root element
+ */
+const preprocess = (html: string): string => {
+  const $ = cheerio.load(html)
+  $('body > div').attr('id', 'prerender')
+  return $.html()
 }
 
 const processRoute = async (route: string) => {
@@ -32,7 +42,7 @@ const processRoute = async (route: string) => {
     body: html,
   })
   await makeDir(dirname(outputFile))
-  await writeFileAsync(outputFile, contents)
+  await writeFileAsync(outputFile, preprocess(contents))
   console.log(`rendered ${route}`)
 }
 
