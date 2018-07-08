@@ -35,7 +35,8 @@
     "eslint-plugin-unicorn": "4.0.3",
     "jest": "23.1.0",
     "ts-jest": "22.4.6",
-    "typescript-eslint-parser": "16.0.1"
+    "typescript-eslint-parser": "16.0.1",
+    "typescript": "2.9.2"
   },
   "jest": {
     "transform": {
@@ -66,7 +67,6 @@
     "rollup-plugin-serve": "^0.4.2",
     "rollup-plugin-terser": "^1.0.1",
     "rollup": "0.60.7",
-    "typescript": "2.9.2"
   },
   "prettier": {
     "singleQuote": true,
