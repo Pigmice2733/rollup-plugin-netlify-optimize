@@ -20,22 +20,22 @@
     "lint": "prettier --write '**/*.{t,j}s{,x}' && eslint --fix '**/*.{t,j}s{,x}'"
   },
   "devDependencies": {
-    "@cloudfour/eslint-config": "^1.0.0",
-    "@types/css-modules-require-hook": "^4.0.1",
+    "@cloudfour/eslint-config": "1.0.0",
+    "@types/css-modules-require-hook": "4.0.1",
     "@types/hasha": "3.0.0",
-    "@types/html-minifier": "^3.5.2",
+    "@types/html-minifier": "3.5.2",
     "@types/jest": "23.1.0",
-    "@types/make-dir": "^1.0.3",
-    "@types/resolve": "^0.0.8",
-    "eslint": "^5.0.1",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "eslint-plugin-unicorn": "^4.0.3",
+    "@types/make-dir": "1.0.3",
+    "@types/resolve": "0.0.8",
+    "eslint": "5.0.1",
+    "eslint-plugin-import": "2.13.0",
+    "eslint-plugin-node": "6.0.1",
+    "eslint-plugin-promise": "3.8.0",
+    "eslint-plugin-standard": "3.1.0",
+    "eslint-plugin-unicorn": "4.0.3",
     "jest": "23.1.0",
     "ts-jest": "22.4.6",
-    "typescript-eslint-parser": "^16.0.1"
+    "typescript-eslint-parser": "16.0.1"
   },
   "jest": {
     "transform": {
