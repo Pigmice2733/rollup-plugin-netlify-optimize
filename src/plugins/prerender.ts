@@ -1,5 +1,5 @@
 import { Plugin } from 'rollup'
-import { createInputs } from '../prerender-config'
+import { createInputs } from '..'
 import { join, dirname } from 'path'
 import { render } from 'preact-render-to-string'
 import { h } from 'preact'
@@ -32,6 +32,7 @@ const preprocess = (html: string): string => {
 const processRoute = async (route: string) => {
   const inputFile = join(process.cwd(), 'prerender', route)
   const outputFile = join(process.cwd(), 'dist', route + '.html')
+  delete require.cache[require.resolve(inputFile)]
   const html = render(h(require(inputFile), null))
   const contents = htmlTemplate({
     scripts: {
