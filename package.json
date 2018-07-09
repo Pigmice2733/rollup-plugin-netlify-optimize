@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@cloudfour/eslint-config": "1.0.0",
-    "@types/cheerio": "^0.22.8",
+    "@types/cheerio": "0.22.8",
     "@types/css-modules-require-hook": "4.0.1",
     "@types/hasha": "3.0.0",
     "@types/html-minifier": "3.5.2",
