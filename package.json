@@ -25,7 +25,7 @@
     "@types/css-modules-require-hook": "4.0.1",
     "@types/hasha": "3.0.0",
     "@types/html-minifier": "3.5.2",
-    "@types/jest": "23.1.0",
+    "@types/jest": "23.3.5",
     "@types/make-dir": "1.0.3",
     "@types/resolve": "0.0.8",
     "eslint": "5.0.1",
