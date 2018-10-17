@@ -21,7 +21,7 @@ jobs:
       - run: npm test
   "node-latest":
     docker:
-      - image: circleci/node:latest@sha256:156d2e007d67a181d84d40e3d64bd63f6de02c0a2d57fa44f1ee860072a9140a
+      - image: circleci/node:latest@sha256:912c37477d1f2af16dcd65b5ec5411de230eba231564b4d88fea41f809cd9552
     working_directory: ~/typescript-starter
     steps:
       - checkout
