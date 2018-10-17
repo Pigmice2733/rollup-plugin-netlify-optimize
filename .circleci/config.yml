@@ -3,7 +3,7 @@ version: 2
 jobs:
   "node-8":
     docker:
-      - image: circleci/node:8@sha256:93d93c1ee9134aa55bc7c5c4f6d25886810091f6300539b9a4bd9c08838da692
+      - image: circleci/node:8@sha256:f1ae0806af2497e569fae5f71be41232c8d387280c7c2e6e121921abcdb52ef3
     working_directory: ~/typescript-starter
     steps:
       - checkout
